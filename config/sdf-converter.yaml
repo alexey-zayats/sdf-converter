@@ -1,0 +1,8 @@
+Log:
+  Level: debug
+
+Mongo:
+  DSN: mongo://127.0.0.1:27017/
+  DB: armv-main
+
+Workers: 4
