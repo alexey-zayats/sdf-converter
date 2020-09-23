@@ -6,12 +6,12 @@ import (
 	"go.uber.org/dig"
 	"os"
 	"path"
+	"regexp"
 	"sdf-converter/internal/config"
 	"sdf-converter/internal/epgu/kf/form"
 	"sdf-converter/internal/registry"
 	"sdf-converter/internal/util"
 	"strings"
-	"unicode/utf8"
 )
 
 // ItemKind ...
@@ -126,6 +126,7 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 
 	// Генерируем json формы
 	formJSON := c.builder.Build(reg.ServiceFormCode, reg.SDF)
+	formJSON = regexp.MustCompile(`\n$`).ReplaceAllString(formJSON, "")
 
 	applicant := make([]string, len(reg.ApplicantType))
 	for i, item := range reg.ApplicantType {
@@ -148,32 +149,20 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 	}
 
 	formJSON = util.UTF8toCP1251(formJSON)
-
-	i := 0
-	by := 200
-	lines := make([]string, 0)
-	for i < utf8.RuneCountInString(formJSON) {
-
-		if len(formJSON) < (i + by) {
-			by = len(formJSON) - i
+	lines := util.SplitSubN(formJSON, 200)
+	for i, line := range lines {
+		lines[i] = "q'^" + strings.ReplaceAll(line, "?", "^' ||\n"+" '?'\n"+" || q'^")
+		if i < len(lines)-1 {
+			lines[i] += "^' ||"
+		} else {
+			lines[i] += "^'"
 		}
-
-		x := util.RunIndex(formJSON, by)
-
-		line := "q'^" + formJSON[i:i+x] + "^' ||"
-
-		idx := strings.Index(line, "?")
-		if idx > -1 {
-			line = strings.ReplaceAll(line, "?", "^' ||\n"+" '?'\n"+" || q'")
-		}
-
-		lines = append(lines, line)
-
-		i = i + by + 1
 	}
 
+	formJSON = strings.Join(lines, "\n")
+
 	meta := Meta{
-		FormJSON:          strings.Join(lines, "\n"),
+		FormJSON:          formJSON,
 		DepartmentName:    util.UTF8toCP1251(reg.DepartmentName),
 		DepartmentCode:    reg.DepartmentCode,
 		ServiceName:       util.UTF8toCP1251(reg.ServiceName),
