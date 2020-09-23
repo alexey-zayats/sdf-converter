@@ -9,10 +9,8 @@ cd $DIRPATH/..
 
 set -ex
 
-REGISTRY=hub.docker.com/aazayats
-IMAGE=sdf-converter
-
-# git pull
+REGISTRY_URL=aazayats
+IMAGE=${REGISTRY_URL}/sdf-converter
 
 docker run --rm -v "$PWD":/app treeder/bump patch
 
@@ -26,8 +24,13 @@ git tag -a "$VERSION" -m "version $VERSION"
 git push origin $BRANCH
 git push --tags
 
-docker build -t ${IMAGE} .
-docker tag $REGISTRY/$IMAGE:$VERSION
 
-# push it
-docker push $REGISTRY/$IMAGE:$version
+REGISTRY_URL=aazayats
+IMAGE=${REGISTRY_URL}/sdf-converter
+VERSION=$(cat VERSION)
+
+docker build -t ${IMAGE} .
+docker tag ${IMAGE}:latest ${IMAGE}:${VERSION}
+
+docker push ${IMAGE}:${VERSION}
+docker push ${IMAGE}:latest
