@@ -16,7 +16,15 @@ type Config struct {
 		DSN string
 		DB  string
 	}
-	Workers int
+	Workers   int
+	Converter struct {
+		Registry string
+		Dir      struct {
+			Template string
+			Artefact string
+			Tmp      string
+		}
+	}
 }
 
 // NewConfig ...

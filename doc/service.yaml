@@ -1,0 +1,117 @@
+form:
+  FormStep0:
+    ClaimDetails:
+      service:
+        - userId
+        - TypeID
+        - CreateDate_order
+        - okato
+        - srguDepartmentId
+        - srguDepartmentName
+        - srguServiceId
+        - srguServiceName
+        - CaseNumber
+        - code
+  FormStep1:
+    PanelAgent:
+      Panel465:
+        - represent
+      trusteeData:
+        Panelsurname:
+          - trustee_surname
+        PanelfirstName:
+          - trustee_firstName
+        PanelmiddleName:
+          - trustee_middleName
+        Panelpred_snils:
+          - predSnils
+        Panelpred_innip:
+          - innip_pred
+      trustee_doc1:
+      trustee_doc2:
+        Paneltitle:
+          - Name1
+        PanelSerias:
+          - Serial1
+        PanelNumber:
+          - Number1
+        PanelissueDate:
+          - fromDate1
+        Panelissuer:
+          - Org1
+      trustee_doc3:
+      userdata:
+        Panelsurname:
+          - surname
+        PanelfirstName:
+          - firstName
+        PanelmiddleName:
+          - middleName
+        Panelsnils:
+          - Snils
+        Panelinnip:
+          - innip
+        Panelogrnip:
+          - ogrnip
+      Panel361:
+      userdoc:
+        Paneltitle:
+          - title
+        PanelSerias:
+          - Serias
+        PanelNumber:
+          - Number
+        PanelissueDate:
+          - issueDate
+        Panelissuer:
+          - issuer
+      Panel634:
+      Contactinfo:
+        Panelphone:
+          - MobilePhone
+        Panelemail:
+          - Email
+        PanelAddress:
+          - RegAddressFL
+          - adr_check
+          - FactAddressFL
+  FormStepUL:
+    PanelLegal:
+      PanelorgName:
+        - orgName
+      PanelFullname:
+        - FullName
+      Panelfirm_opf:
+        - firm_opf
+      PanelINN:
+        - INN
+      PanelOGRN:
+        - OGRN
+      Panelkpp:
+        - kpp
+    Panel_cont_info:
+      Panel76:
+      PanelLastNameUL:
+        - LastNameUL
+      PanelFirstNameUL:
+        - FirstNameUL
+      PanelMiddleNameUL:
+        - MiddleNameUL
+      Panelposition:
+        - position
+      Panel129:
+      PanelMobilePhoneUL:
+        - MobilePhoneUL
+      PanelEmailUL:
+        - EmailUL
+      Panel196:
+        - PostalAddressUL
+      Panel290:
+        - Checkbox_adr_UL
+        - FactAddressUL
+  FormStep1749:
+  FormStep3:
+  NavPanel:
+    __prevStep:
+    FormButtonShowInfo:
+    __nextStep:

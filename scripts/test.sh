@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-REALPATH=`realpath $0`
-DIRPATH=`dirname $REALPATH`
+REALPATH=$(realpath $0)
+DIRPATH=$(dirname $REALPATH)
 
 binary=sdf-converter
 env=converter

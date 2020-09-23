@@ -21,8 +21,6 @@ func (r *Runner) Run(ctx context.Context, args []string) {
 	signalChan := make(chan os.Signal)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGABRT, syscall.SIGHUP, syscall.SIGTERM)
 
-	logrus.Debug("press ctrl+c to exit")
-
 	childCtx, cancel := context.WithCancel(ctx)
 
 	go r.catchSignal(cancel, signalChan)
@@ -38,7 +36,7 @@ func (r *Runner) Run(ctx context.Context, args []string) {
 
 	// Invoke from di
 	if err := container.Invoke(r.Invoke(childCtx, args)); err != nil {
-		logrus.Fatalf("unable invoke runner interface: %s", err.Error())
+		logrus.Fatalf("unable invoke runner interfaces: %s", err.Error())
 	}
 
 }
