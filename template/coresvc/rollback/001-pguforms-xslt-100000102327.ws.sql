@@ -3,7 +3,7 @@
 -- Description:
 set define off;
 begin
-delete pguforms.xslt where MNEMONIC='100000102327.ws';
+delete pguforms.xslt where MNEMONIC='{{.ServiceFormCode}}.ws';
 commit;
 end;
 /

@@ -8,27 +8,27 @@ begin
   cn := q'@<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:pgufg="http://idecs.atc.ru/pgufg/ws/fgapc/"
-                xmlns:ns2="http://smev.gosuslugi.ru/request/rev111111" 
+                xmlns:ns2="http://smev.gosuslugi.ru/request/rev111111"
 				exclude-result-prefixes="xsl pgufg ns2">
-				
+
 	<xsl:template match="/">
 		<tns:RequestMessage xmlns:tns="urn://rtlabs/armv60/startRequest/1.0.2">
-			
+
 			<tns:OKTMO>60000000</tns:OKTMO>
-			
+
 			<tns:CaseNumber><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='CaseNumber']/pgufg:value"/></tns:CaseNumber>
-	
-			<tns:Date><xsl:apply-templates select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='CreateDate_order']" mode="date"/></tns:Date> 
+
+			<tns:Date><xsl:apply-templates select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='CreateDate_order']" mode="date"/></tns:Date>
 			<tns:ServiceCode><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='srguServiceId']/pgufg:value"/></tns:ServiceCode>
-			<tns:processKey><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='code']/pgufg:value"/></tns:processKey>				
+			<tns:processKey><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='code']/pgufg:value"/></tns:processKey>
 			<tns:templateID>TPReqRes</tns:templateID>
-	
-	
-	
+
+
+
 	<tns:Params>
-				
-				
-				
+
+
+
 			<tns:Param>
 			<tns:name>sir_attachments_process</tns:name>
 			<tns:value>true</tns:value>
@@ -37,27 +37,27 @@ begin
 
 
 <!-- служебное не в служебном, потом может уберу, пока пусть будет -->
-			
-			
-			
-			
-		<!-- Для Михаила, тип заявителя по-русски -->			
-			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'PERSON_RF'">		
+
+
+
+
+		<!-- Для Михаила, тип заявителя по-русски -->
+			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'PERSON_RF'">
 					<tns:Param desc = "Тип заявителя"><tns:name>TypeID</tns:name>
 					<tns:value>Физическое лицо</tns:value></tns:Param>
 			</xsl:if>
-			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">		
+			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">
 					<tns:Param desc = "Тип заявителя"><tns:name>TypeID</tns:name>
 					<tns:value>Индивидуальный предприниматель</tns:value></tns:Param>
 			</xsl:if>
-			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'EMPLOYEE'">		
+			<xsl:if test="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'EMPLOYEE'">
 					<tns:Param desc = "Тип заявителя"><tns:name>TypeID</tns:name>
 					<tns:value>Юридическое лицо</tns:value></tns:Param>
 			</xsl:if>
-			
-					
-					
-					
+
+
+
+
 			<tns:Param desc = "Дата подачи"><tns:name>DateApplication</tns:name>
 					<tns:value><xsl:apply-templates select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='CreateDate_order']" mode="date"/></tns:value></tns:Param>
 			<tns:Param desc = "Номер заявки"><tns:name>CaseNumber</tns:name>
@@ -67,13 +67,13 @@ begin
 			<tns:Param desc = "Код цели услуги (СРГУ)"><tns:name>ServiceCode</tns:name>
 					<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='srguServiceId']/pgufg:value"/></tns:value></tns:Param>
 			<tns:Param desc = "Мнемоника формы"><tns:name>mnemonic</tns:name>
-					<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='code']/pgufg:value"/></tns:value></tns:Param>	
+					<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='code']/pgufg:value"/></tns:value></tns:Param>
 			<tns:Param desc = "Код ведомства (СРГУ)"><tns:name>srguDepartmentId</tns:name>
 					<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='srguDepartmentId']/pgufg:value"/></tns:value></tns:Param>
 			<tns:Param desc = "Наименование ведомства (СРГУ)"><tns:name>srguDepartmentName</tns:name>
 					<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='srguDepartmentName']/pgufg:value"/></tns:value></tns:Param>
-			
-		
+
+
 <!-- Информация о заявителе ФЛ, отображается если заявитель ФЛ или ИП -->
 
 <xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value != 'EMPLOYEE'">
@@ -84,12 +84,12 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='PanelAgent']/pgufg:object[pgufg:code='Panel465']/pgufg:object[pgufg:code='represent']/pgufg:value"/>
 						</tns:value>
 				</tns:Param>
-					
+
 				<!-- Информация о заявителе если выбран чекбокс представителя (данные которые заполняются вручную -->
 				<xsl:if test="//pgufg:object[pgufg:code='PanelAgent']/pgufg:object[pgufg:code='Panel465']/pgufg:object[pgufg:code='represent']/pgufg:value = 'true'">
-				
-				
-								
+
+
+
 				<tns:Param desc="Фамилия заявителя">
 						<tns:name>surname</tns:name>
 						<tns:value>
@@ -102,7 +102,7 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='trusteeData']/pgufg:object[pgufg:code='PanelfirstName']/pgufg:object[pgufg:code='trustee_firstName']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-										
+
 				<xsl:if test="//pgufg:object[pgufg:code='trusteeData']/pgufg:object[pgufg:code='PanelmiddleName']/pgufg:object[pgufg:code='trustee_middleName']/pgufg:value != ''">
 				<tns:Param desc="Отчество заявителя">
 						<tns:name>middleName</tns:name>
@@ -111,7 +111,7 @@ begin
 						</tns:value>
 					</tns:Param>
 				</xsl:if>
-				
+
 				<tns:Param desc="СНИЛС">
 						<tns:name>snils</tns:name>
 						<tns:value>
@@ -124,14 +124,14 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='trusteeData']/pgufg:object[pgufg:code='Panelpred_innip']/pgufg:object[pgufg:code='innip_pred']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				
-				
-				
-			<!-- тут кусок по реквизитам ИП, если тип заявителя ИП и чекбокс представителя включен -->	
-			
-			
-				
-		<xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">								
+
+
+
+			<!-- тут кусок по реквизитам ИП, если тип заявителя ИП и чекбокс представителя включен -->
+
+
+
+		<xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">
 				<xsl:if test="//pgufg:object[pgufg:code='trusteeData']/pgufg:object[pgufg:code='Panelpred_ogrnip']/pgufg:object[pgufg:code='ogrnip_pred']/pgufg:value != ''">
 				<tns:Param desc="ОГРНИП (если представитель)">
 						<tns:name>ogrnip_pred</tns:name>
@@ -140,17 +140,17 @@ begin
 						</tns:value>
 					</tns:Param>
 				</xsl:if>
-				
+
 		</xsl:if>
-			<!-- дальше продолжаем по докам -->	
-				
+			<!-- дальше продолжаем по докам -->
+
 				<tns:Param desc="Тип документа удостоверяющего личность заявителя">
 					<tns:name>Title</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='trustee_doc2']/pgufg:object[pgufg:code='Paneltitle']/pgufg:object[pgufg:code='Name1']/pgufg:attrs/pgufg:entry[pgufg:key='text_value']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-			
+
 					<tns:Param desc="Серия документа удостоверяющего личность заявителя">
 						<tns:name>Serial</tns:name>
 						<tns:value>
@@ -175,8 +175,8 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='trustee_doc2']/pgufg:object[pgufg:code='Panelissuer']/pgufg:object[pgufg:code='Org1']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-			
-			<!-- Информация о представителе (хозяине ЛК) -->	
+
+			<!-- Информация о представителе (хозяине ЛК) -->
 				<tns:Param desc="Фамилия представителя">
 						<tns:name>trustee_surname</tns:name>
 						<tns:value>
@@ -189,7 +189,7 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='PanelfirstName']/pgufg:object[pgufg:code='firstName']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-						
+
 					<xsl:if test="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='PanelmiddleName']/pgufg:object[pgufg:code='middleName']/pgufg:value != ''">
 				<tns:Param desc="Отчество представителя">
 						<tns:name>trustee_middleName</tns:name>
@@ -198,16 +198,16 @@ begin
 						</tns:value>
 					</tns:Param>
 				</xsl:if>
-				
-		
-				
+
+
+
 					<tns:Param desc="Тип документа удостоверяющего личность представителя">
 					<tns:name>trustee_Title</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='userdoc']/pgufg:object[pgufg:code='Paneltitle']/pgufg:object[pgufg:code='title']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-			
+
 					<tns:Param desc="Серия документа удостоверяющего личность представителя">
 						<tns:name>trustee_Serial</tns:name>
 						<tns:value>
@@ -234,7 +234,7 @@ begin
 					</tns:Param>
 
 				</xsl:if>
-			
+
 			<!-- Информация о заявителе если чекбокс представителя НЕ ВЫБРАН (Обычная подача без представителя)-->
 			<xsl:if test="//pgufg:object[pgufg:code='PanelAgent']/pgufg:object[pgufg:code='Panel465']/pgufg:object[pgufg:code='represent']/pgufg:value = 'false'">
 			<tns:Param desc="Фамилия заявителя">
@@ -249,7 +249,7 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='PanelfirstName']/pgufg:object[pgufg:code='firstName']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-						
+
 					<xsl:if test="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='PanelmiddleName']/pgufg:object[pgufg:code='middleName']/pgufg:value != ''">
 				<tns:Param desc="Отчество заявителя">
 						<tns:name>middleName</tns:name>
@@ -258,7 +258,7 @@ begin
 						</tns:value>
 					</tns:Param>
 				</xsl:if>
-				
+
 				<tns:Param desc="СНИЛС заявителя">
 						<tns:name>snils</tns:name>
 						<tns:value>
@@ -271,11 +271,11 @@ begin
 							<xsl:value-of select="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='Panelinnip']/pgufg:object[pgufg:code='innip']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				<!-- тут кусок по реквизитам ИП, если тип заявителя ИП и чекбокс представителя включен -->	
-			
-			
-				
-			<xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">						
+				<!-- тут кусок по реквизитам ИП, если тип заявителя ИП и чекбокс представителя включен -->
+
+
+
+			<xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'BUSINESSMAN'">
 				<xsl:if test="//pgufg:object[pgufg:code='userdata']/pgufg:object[pgufg:code='Panelogrnip']/pgufg:object[pgufg:code='ogrnip']/pgufg:value != ''">
 				<tns:Param desc="ОГРНИП">
 						<tns:name>ogrnip</tns:name>
@@ -284,18 +284,18 @@ begin
 						</tns:value>
 					</tns:Param>
 				</xsl:if>
-				
+
 		</xsl:if>
-			<!-- дальше продолжаем по докам -->	
-				
-				
+			<!-- дальше продолжаем по докам -->
+
+
 					<tns:Param desc="Тип документа удостоверяющего личность заявителя">
 					<tns:name>Title</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='userdoc']/pgufg:object[pgufg:code='Paneltitle']/pgufg:object[pgufg:code='title']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-			
+
 					<tns:Param desc="Серия документа удостоверяющего личность заявителя">
 						<tns:name>Serial</tns:name>
 						<tns:value>
@@ -321,36 +321,36 @@ begin
 						</tns:value>
 					</tns:Param>
 			</xsl:if>
-			
-		
-			
+
+
+
 				<!-- Контактная информация -->
-					
-				
+
+
 					<tns:Param desc="Мобильынй телефон">
 						<tns:name>Phone</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Contactinfo']/pgufg:object[pgufg:code='Panelphone']/pgufg:object[pgufg:code='MobilePhone']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				
-			
+
+
 					<tns:Param desc="Адрес электронной почты">
 						<tns:name>Email</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Contactinfo']/pgufg:object[pgufg:code='Panelemail']/pgufg:object[pgufg:code='Email']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				
+
 				<!-- Адреса, передача факт адреса в зависимости от значения чекбокса, сам чекбокс не передаем -->
-				
+
 					<tns:Param desc="Сведения об адресе регистрации по месту жительства">
 						<tns:name>PersonAddress</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Contactinfo']/pgufg:object[pgufg:code='PanelAddress']/pgufg:object[pgufg:code='RegAddressFL']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-					
+
 					<xsl:if test="//pgufg:object[pgufg:code='Contactinfo']/pgufg:object[pgufg:code='PanelAddress']/pgufg:object[pgufg:code='adr_check']/pgufg:value = 'false'">
 					<tns:Param desc="Сведения об адресе фактического места жительства">
 						<tns:name>FactAddress</tns:name>
@@ -367,17 +367,17 @@ begin
 						</tns:value>
 					</tns:Param>
 					</xsl:if>
-			</xsl:if>		
-	<!-- Информация о заявителе ЮЛ, передается если заявитель ЮЛ -->		
+			</xsl:if>
+	<!-- Информация о заявителе ЮЛ, передается если заявитель ЮЛ -->
 
 <xsl:if test="//pgufg:object[pgufg:code='ClaimDetails']/pgufg:object[pgufg:code='service']/pgufg:object[pgufg:code='TypeID']/pgufg:value = 'EMPLOYEE'">
 
-		
+
 		<tns:Param desc="Полное наименование организации">
 				<tns:name>FullName</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='PanelorgName']/pgufg:object[pgufg:code='orgName']/pgufg:value"/></tns:value>
 		</tns:Param>
-		
+
 		<tns:Param desc="Краткое наименование организации">
 				<tns:name>ShortName</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='PanelFullname']/pgufg:object[pgufg:code='FullName']/pgufg:value"/></tns:value>
@@ -387,18 +387,18 @@ begin
 				<tns:name>OrgForm</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='Panelfirm_opf']/pgufg:object[pgufg:code='firm_opf']/pgufg:value"/></tns:value>
 		</tns:Param>
-		
+
 		<tns:Param desc="ИНН ЮЛ">
 				<tns:name>inn_ul</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='PanelINN']/pgufg:object[pgufg:code='INN']/pgufg:value"/></tns:value>
 		</tns:Param>
-		
+
 		<tns:Param desc="ОГРН ЮЛ">
 				<tns:name>ogrn_ul</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='PanelOGRN']/pgufg:object[pgufg:code='OGRN']/pgufg:value"/></tns:value>
 		</tns:Param>
-		
-		
+
+
 		<xsl:if test="//pgufg:object[pgufg:code='PanelLegal']/pgufg:object[pgufg:code='Panelkpp']/pgufg:object[pgufg:code='kpp']/pgufg:value != ''">
 		<tns:Param desc="КПП ЮЛ">
 				<tns:name>kpp_ul</tns:name>
@@ -406,7 +406,7 @@ begin
 		</tns:Param>
 		</xsl:if>
 
-	<!--Сведения о представителе ЮЛ-->	
+	<!--Сведения о представителе ЮЛ-->
 
 		<tns:Param desc="Фамилия представителя ЮЛ">
 				<tns:name>LastNameUL</tns:name>
@@ -426,33 +426,33 @@ begin
 				<tns:name>position</tns:name>
 				<tns:value><xsl:value-of select="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='Panelposition']/pgufg:object[pgufg:code='position']/pgufg:value"/></tns:value>
 		</tns:Param>
-	
-		<!--Контактные данные ЮЛ-->		
-		
+
+		<!--Контактные данные ЮЛ-->
+
 	<tns:Param desc="Телефон ЮЛ">
 						<tns:name>MobilePhoneUL</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='PanelMobilePhoneUL']/pgufg:object[pgufg:code='MobilePhoneUL']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				
-			
+
+
 					<tns:Param desc="Адрес электронной почты ЮЛ">
 						<tns:name>EmailUL</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='PanelEmailUL']/pgufg:object[pgufg:code='EmailUL']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-				
+
 				<!-- Адреса, передача факт адреса в зависимости от значения чекбокса, сам чекбокс не передаем -->
-				
+
 					<tns:Param desc="Юридический адрес">
 						<tns:name>PostalAddressUL</tns:name>
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='Panel196']/pgufg:object[pgufg:code='PostalAddressUL']/pgufg:value"/>
 						</tns:value>
 					</tns:Param>
-					
+
 					<xsl:if test="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='Panel290']/pgufg:object[pgufg:code='Checkbox_adr_UL']/pgufg:value = 'false'">
 					<tns:Param desc="Фактический адрес ЮЛ">@';
   cn := cn || q'@<tns:name>PostalAddressUL</tns:name>
@@ -467,32 +467,32 @@ begin
 						<tns:value>
 							<xsl:value-of select="//pgufg:object[pgufg:code='Panel_cont_info']/pgufg:object[pgufg:code='Panel290']/pgufg:object[pgufg:code='FactAddressUL']/pgufg:value"/>
 						</tns:value>
-					</tns:Param>	
+					</tns:Param>
 		</xsl:if>
-		
-		
-		
-		
-		
+
+
+
+
+
 	</xsl:if>
-				
+
 								<!-- ПРАВИМ ОТСЮДА -->
 				<!-- Данные по услуге -->
-				
-									
-						
-							
+
+
+
+
 						<tns:Param desc="Текст обращения">
 						<tns:name>letter</tns:name>
 						<tns:value>
 							<xsl:value-of select = "//pgufg:object[pgufg:code = 'Panel2676']/pgufg:object[pgufg:code = 'letter']/pgufg:value"/>
 						</tns:value>
 							</tns:Param>
-					
 
-					
+
+
 					<!-- ПРАВИМ ДОСЮДА -->
-				
+
 			</tns:Params>
 		    <tns:AppliedDocuments>
                 <xsl:for-each select="//ns2:AppliedDocument">
@@ -521,11 +521,11 @@ begin
 </xsl:stylesheet>@';
 
 merge into pguforms.xslt xs
-using (select '100000102327.ws' as mnem, cn as content from dual ) d
+using (select '{{.ServiceFormCode}}.ws' as mnem, cn as content from dual ) d
 on (d.mnem = xs.mnemonic)
 when matched then update set xs.CONTENT = d.content, xs.updated = sysdate
 when not matched then
-insert (MNEMONIC, CONTENT, AUTHORID) values ('100000102327.ws', cn, 1000413036);
+insert (MNEMONIC, CONTENT, AUTHORID) values ('{{.ServiceFormCode}}.ws', cn, 1000413036);
 commit;
 end;
 /

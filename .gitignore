@@ -14,5 +14,5 @@
 *.out
 
 bin/
-data/artefact/
-data/tmp/
+data/
+data/
