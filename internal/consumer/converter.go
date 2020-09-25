@@ -91,8 +91,8 @@ func (c *Converter) registry(ctx context.Context) {
 		return
 
 	default:
-		if err := c.registryParser.Parse(c.cfg.Converter.Registry, c.registryChan); err != nil {
-			logrus.WithError(err).Errorf("unable parse registry file %s", c.cfg.Converter.Registry)
+		if err := c.registryParser.Parse(c.cfg.Registry, c.registryChan); err != nil {
+			logrus.WithError(err).Errorf("unable parse registry file %s", c.cfg.Registry)
 		}
 		c.end()
 	}
@@ -121,6 +121,13 @@ func (c *Converter) worker(ctx context.Context, worker int) {
 			record.SDF, err = c.serviceSvc.GetBySrguID(ctx, record.ServiceTargetID)
 			if err != nil {
 				logrus.WithError(err).Errorf("unable call serviceSvc.GetBySrguID(%s)", record.ServiceTargetID)
+				continue
+			}
+
+			if record.SDF.ServiceIDSrgu == "" {
+				logrus.WithFields(logrus.Fields{
+					"ServiceTargetID": record.ServiceTargetID,
+				}).Error("unable to get service from SDF")
 				continue
 			}
 

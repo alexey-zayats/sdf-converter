@@ -39,10 +39,10 @@ func init() {
 
 		{Name: "log-level", Value: "info", Usage: "log level", ViperBind: "Log.Level"},
 
-		{Name: "mongo-dsn", Value: "mongo://converter:converter@127.0.0.1:27017/", Usage: "Mongodb datasource", ViperBind: "Mongo.DSN"},
+		{Name: "mongo-dsn", Value: "mongodb://converter:converter@127.0.0.1:27017/", Usage: "Mongodb datasource", ViperBind: "Mongo.DSN"},
 		{Name: "mongo-db", Value: "crawler", Usage: "AMQP datasource", ViperBind: "Mongo.DB"},
 
-		{Name: "workers", Value: 1, Usage: "number of workers", ViperBind: "Workers"},
+		{Name: "workers", Value: 8, Usage: "number of workers", ViperBind: "Workers"},
 	}
 
 	viper.SetEnvPrefix(config.EnvPrefix)

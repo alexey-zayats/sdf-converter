@@ -44,11 +44,13 @@ func CopyFile(src, dst string) (err error) {
 // destination file exists, all it's contents will be replaced by the contents
 // of the source file.
 func copyFileContents(src, dst string) (err error) {
+
 	in, err := os.Open(src)
 	if err != nil {
 		return
 	}
 	defer in.Close()
+
 	out, err := os.Create(dst)
 	if err != nil {
 		return
@@ -59,9 +61,11 @@ func copyFileContents(src, dst string) (err error) {
 			err = cerr
 		}
 	}()
+
 	if _, err = io.Copy(out, in); err != nil {
 		return
 	}
 	err = out.Sync()
+
 	return
 }

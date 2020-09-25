@@ -4,6 +4,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/dig"
+	"golang.org/x/text/encoding/charmap"
+	"golang.org/x/text/transform"
 	"os"
 	"path"
 	"regexp"
@@ -101,7 +103,7 @@ func NewContent(di ContentDI) (*Content, error) {
 		{"forms/svcspec/rollback/007-pgu-commonToEservice-100000102327.sql", ItemTemplate},
 	}
 
-	templatePath := di.Config.Converter.Dir.Template
+	templatePath := di.Config.Dir.Template
 
 	for _, item := range items {
 		if item.Kind != ItemTemplate {
@@ -123,6 +125,9 @@ func NewContent(di ContentDI) (*Content, error) {
 
 // Prepare ...
 func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) error {
+
+	//reg.SDF.FullName = reg.ServiceName
+	//reg.SDF.ShortName = reg.ServiceTargetName
 
 	// Генерируем json формы
 	formJSON := c.builder.Build(reg.ServiceFormCode, reg.SDF)
@@ -148,7 +153,7 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 		useSignature = "EDS_NOT_SUPPORTED"
 	}
 
-	formJSON = util.UTF8toCP1251(formJSON)
+	//formJSON = util.ToCP1251(formJSON)
 	lines := util.SplitSubN(formJSON, 200)
 	for i, line := range lines {
 		lines[i] = "q'^" + strings.ReplaceAll(line, "?", "^' ||\n"+" '?'\n"+" || q'^")
@@ -163,10 +168,10 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 
 	meta := Meta{
 		FormJSON:          formJSON,
-		DepartmentName:    util.UTF8toCP1251(reg.DepartmentName),
+		DepartmentName:    reg.DepartmentName,
 		DepartmentCode:    reg.DepartmentCode,
-		ServiceName:       util.UTF8toCP1251(reg.ServiceName),
-		ServiceTargetName: util.UTF8toCP1251(reg.ServiceTargetName),
+		ServiceName:       reg.ServiceName,
+		ServiceTargetName: reg.ServiceTargetName,
 		ServiceTargetID:   reg.ServiceTargetID,
 		ServiceFormCode:   reg.ServiceFormCode,
 		ApplicantType:     strings.Join(applicant, ","),
@@ -195,22 +200,24 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 			name := paths[len(paths)-1]
 			dir := strings.Join(paths[:len(paths)-1], "/")
 
-			dst := path.Join(folders[dir], strings.ReplaceAll(name, "100000102327", reg.ServiceFormCode))
+			fileName := strings.ReplaceAll(name, "100000102327", reg.ServiceFormCode)
+			filePath := path.Join(folders[dir], fileName)
 
-			file, err := os.Create(dst)
+			file, err := os.Create(filePath)
 			if err != nil {
-				return errors.Wrapf(err, "unable to create file %s", dst)
+				return errors.Wrapf(err, "unable to create file %s", filePath)
 			}
 
-			if err := c.template.Execute(file, item.Path, meta); err != nil {
+			writer := transform.NewWriter(file, charmap.Windows1251.NewEncoder())
+
+			if err := c.template.Execute(writer, item.Path, meta); err != nil {
 				_ = file.Close()
 				return errors.Wrapf(err, "unable to call template.ExecuteTemplate(%s)", name)
 			}
 
 			if err := file.Close(); err != nil {
-				logrus.WithError(err).Errorf("unable close file %s", dst)
+				logrus.WithError(err).Errorf("unable close file %s", filePath)
 			}
-
 		}
 	}
 

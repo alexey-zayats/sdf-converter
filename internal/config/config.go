@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"os"
 )
 
 // Config ...
@@ -16,14 +17,12 @@ type Config struct {
 		DSN string
 		DB  string
 	}
-	Workers   int
-	Converter struct {
-		Registry string
-		Dir      struct {
-			Template string
-			Artefact string
-			Tmp      string
-		}
+	Workers  int
+	Registry string
+	Dir      struct {
+		Template string
+		Artefact string
+		Tmp      string
 	}
 }
 
@@ -48,6 +47,7 @@ func NewConfig() (*Config, error) {
 		return nil, errors.Wrap(err, "Unmarshal config")
 	}
 
+	logrus.SetOutput(os.Stdout)
 	logrus.SetLevel(level)
 	//logrus.SetReportCaller(true)
 

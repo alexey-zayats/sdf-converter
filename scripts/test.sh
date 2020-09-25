@@ -17,4 +17,4 @@ fi
 source $DIRPATH/${env}.env
 BINARY=$DIRPATH/../bin/${binary}
 
-$BINARY $@
+$BINARY $@ 2>&1 > output.log

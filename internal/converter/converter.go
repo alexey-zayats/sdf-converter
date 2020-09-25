@@ -35,7 +35,7 @@ func NewConverter(di DI) *Converter {
 // Convert ...
 func (c *Converter) Convert(ctx context.Context, reg *registry.Registry) error {
 
-	recordPath := path.Join(c.config.Converter.Dir.Tmp, reg.ServiceTargetID)
+	recordPath := path.Join(c.config.Dir.Tmp, reg.ServiceTargetID)
 	folders := artefact.NewFolders(recordPath, fmt.Sprintf("form.61.%s", reg.DepartmentCode))
 
 	//// Создаем структуру папок архива
@@ -49,7 +49,7 @@ func (c *Converter) Convert(ctx context.Context, reg *registry.Registry) error {
 	}
 
 	// Архивируем артефакты
-	recordArchiver := artefact.NewArchiver(recordPath, c.config.Converter.Dir.Artefact, reg.ServiceTargetID+".zip")
+	recordArchiver := artefact.NewArchiver(recordPath, c.config.Dir.Artefact, reg.ServiceTargetID+".zip")
 	if err := recordArchiver.Compose(); err != nil {
 		return errors.Wrapf(err, "unable to composer archive for %s", reg.ServiceTargetID)
 	}

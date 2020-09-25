@@ -8,6 +8,7 @@ import (
 	"sdf-converter/internal/epgu/kf/panel"
 	"sdf-converter/internal/epgu/kf/step"
 	"sdf-converter/internal/sdf"
+	"sdf-converter/internal/util"
 )
 
 // Builder ...
@@ -915,12 +916,14 @@ func (b *Builder) Build(serviceKey string, record *sdf.Service) string {
 
 			fieldType, ok := fieldsMap[f.Type]
 			if ok == false {
-				logrus.WithFields(logrus.Fields{
-					"FieldID":       f.FieldID,
-					"Type":          f.Type,
-					"ServiceIDSrgu": record.ServiceIDSrgu,
-					"FieldGroup":    fg.Name,
-				}).Error("unknown field type")
+				/*
+					logrus.WithFields(logrus.Fields{
+						"FieldID":       f.FieldID,
+						"Type":          f.Type,
+						"ServiceIDSrgu": record.ServiceIDSrgu,
+						"FieldGroup":    fg.Name,
+					}).Error("unknown field type")
+				*/
 				continue
 			}
 
@@ -945,12 +948,14 @@ func (b *Builder) Build(serviceKey string, record *sdf.Service) string {
 
 		fieldType, ok := fieldsMap[f.Type]
 		if ok == false {
-			logrus.WithFields(logrus.Fields{
-				"FieldID":       f.FieldID,
-				"Type":          f.Type,
-				"ServiceIDSrgu": record.ServiceIDSrgu,
-				"FieldGroup":    "CustomFields",
-			}).Error("unknown field type")
+			/*
+				logrus.WithFields(logrus.Fields{
+					"FieldID":       f.FieldID,
+					"Type":          f.Type,
+					"ServiceIDSrgu": record.ServiceIDSrgu,
+					"FieldGroup":    "CustomFields",
+				}).Error("unknown field type")
+			*/
 			continue
 		}
 
@@ -974,6 +979,9 @@ func (b *Builder) Build(serviceKey string, record *sdf.Service) string {
 
 			p0 := append(stepDocsPath, fmt.Sprintf("Panel%d", x))
 			p1 := append(p0, fmt.Sprintf("Doc%d", x))
+
+			d.Name = util.ToCP1251(d.Name)
+			d.Name = util.FromCP1251(d.Name)
 
 			fieldItem := field.NewField(p1, "FieldUpload",
 				field.WithLabel(d.Name),

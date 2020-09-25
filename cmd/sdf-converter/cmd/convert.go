@@ -25,11 +25,11 @@ func init() {
 	rootCmd.AddCommand(converterCmd)
 
 	params := []config.Param{
-		{Name: "converter-registry", Value: "/tmp/sdf/registry.xlsx", Usage: "path to services registry", ViperBind: "Converter.Registry"},
+		{Name: "registry", Value: "/tmp/sdf/registry.xlsx", Usage: "path to services registry", ViperBind: "Registry"},
 
-		{Name: "converter-dir-template", Value: "/tmp/sdf/template", Usage: "path to templates dir", ViperBind: "Converter.Dir.Template"},
-		{Name: "converter-dir-artefact", Value: "/tmp/sdf/template", Usage: "path to artefact dir", ViperBind: "Converter.Dir.Artefact"},
-		{Name: "converter-dir-tmp", Value: "/tmp/sdf/tmp", Usage: "path to tmp dir", ViperBind: "Converter.Dir.Tmps"},
+		{Name: "dir-template", Value: "/tmp/sdf/template", Usage: "path to templates dir", ViperBind: "Dir.Template"},
+		{Name: "dir-artefact", Value: "/tmp/sdf/template", Usage: "path to artefact dir", ViperBind: "Dir.Artefact"},
+		{Name: "dir-tmp", Value: "/tmp/sdf/tmp", Usage: "path to tmp dir", ViperBind: "Dir.Tmp"},
 	}
 
 	config.Apply(converterCmd, params)

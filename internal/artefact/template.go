@@ -26,7 +26,7 @@ type TemplateDI struct {
 func NewTemplates(di TemplateDI) (*Template, error) {
 
 	t := &Template{
-		path: di.Config.Converter.Dir.Template,
+		path: di.Config.Dir.Template,
 		dict: make(map[string]*template.Template),
 	}
 	return t, nil

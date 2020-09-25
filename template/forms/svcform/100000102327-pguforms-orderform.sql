@@ -23,7 +23,7 @@ v_Content := {{.FormJSON}};
               '{{.ServiceFormCode}}' MNEMONIC,
               null XSLT,
               'OID.1000413036'LOGIN,
-              'Ибрагимович З.П.' FIO,
+              'РР±СЂР°РіРёРјРѕРІРёС‡ Р—.Рџ.' FIO,
               'PUBLIC_API_XML' XML_PAYLOAD_TYPE,
               null APP_DATA_TRANSFORMER
           from dual) u

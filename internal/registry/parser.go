@@ -66,7 +66,7 @@ func (p *Parser) Parse(filePath string, out chan *Registry) error {
 				ServiceName:       serviceName,
 				ServiceTargetName: serviceTargetName,
 				ServiceTargetID:   serviceTargetID,
-				ServiceFormCode:   fmt.Sprintf("100000%s", serviceFormCode),
+				ServiceFormCode:   serviceFormCode,
 				ApplicantType:     parseApplicant(applicantType),
 				UseSignature:      parseUseSignature(useSignature),
 			}
