@@ -188,7 +188,9 @@ func (c *Content) Prepare(reg *registry.Registry, folders map[string]string) err
 			dir := strings.Join(paths[:len(paths)-1], "/")
 
 			src := path.Join(c.templatePath, item.Path)
-			dst := path.Join(folders[dir], name)
+
+			fileName := strings.ReplaceAll(name, "100000102327", reg.ServiceFormCode)
+			dst := path.Join(folders[dir], fileName)
 
 			if err := util.CopyFile(src, dst); err != nil {
 				return errors.Wrapf(err, "unable to copy file from %s to %s", src, dst)

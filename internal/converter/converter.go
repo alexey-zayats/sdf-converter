@@ -36,7 +36,7 @@ func NewConverter(di DI) *Converter {
 func (c *Converter) Convert(ctx context.Context, reg *registry.Registry) error {
 
 	recordPath := path.Join(c.config.Dir.Tmp, reg.ServiceTargetID)
-	folders := artefact.NewFolders(recordPath, fmt.Sprintf("form.61.%s", reg.DepartmentCode))
+	folders := artefact.NewFolders(recordPath, fmt.Sprintf("forms.61.%s", reg.DepartmentCode))
 
 	//// Создаем структуру папок архива
 	if err := folders.MakeStruct(); err != nil {
